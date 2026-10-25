@@ -29,5 +29,13 @@ jobs:
           java-version: "25"
           cache: maven
 
-      - name: Run Maven tests
-        run: ./mvnw --batch-mode --no-transfer-progress clean test
+      - name: Build, test, and package JAR
+        run: ./mvnw --batch-mode --no-transfer-progress clean package
+
+      - name: Upload packaged JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: payment-app-jar
+          path: target/*.jar
+          if-no-files-found: error
+          retention-days: 7
